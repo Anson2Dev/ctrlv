@@ -2,7 +2,7 @@
 import SocialIcon from './SocialIcon.astro';
 
 interface Social {
-    icon: 'github' | 'linkedIn' | 'twitter' | 'email' | 'xing';
+    icon: 'github' |  'email' | 'setting';
     link: string;
     title?: string;
 }
@@ -12,17 +12,9 @@ const socials: Social[] = [{
     link: 'https://github.com/devidevio',
     title: 'View GitHub Profile'
 }, {
-    icon: 'twitter',
-    link: 'https://x.com/devidev_io',
-    title: 'View Twitter Profile'
-}, {
-    icon: 'linkedIn',
-    link: 'https://www.linkedin.com/in/dejan-vi',
-    title: 'View LinkedIn Profile'
-}, {
-    icon: 'xing',
+    icon: 'setting',
     link: 'https://www.xing.com/profile/Dejan_Vintonjiv',
-    title: 'View Xing Profile'
+    title: 'Setting'
 }, {
     icon: 'email',
     link: 'mailto:hi@devidev.io',
@@ -32,7 +24,7 @@ const socials: Social[] = [{
 ---
 
 <!-- Start: Social Links -->
-<div class="flex flex-wrap gap-3 mt-6 justify-between">
+<div class="flex flex-wrap gap-3 mt-6 justify-start">
 
     {socials.map(social =>
         <a

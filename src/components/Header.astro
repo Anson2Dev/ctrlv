@@ -1,0 +1,46 @@
+---
+import { Picture } from 'astro:assets';
+import ProfilePicture from '../assets/profile.png';
+
+const header = {
+    title: 'CtrlV.me',
+    subtitle: 'Paste anything with AI',
+    command: 'Ctrl + V 👇',
+    version: '0.1.0',
+    // description: 'Passionate web developer focused on creating clean, efficient, and scalable web applications with a modern tech stack. Specialized in Angular, TypeScript, and Supabase, delivering responsive and intuitive user interfaces. Even my name includes "dev".'
+};
+---
+
+<div class="flex flex-col gap-6 items-center text-center sm:items-start sm:text-left">
+
+    <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+
+        <!-- <Picture
+            src={ProfilePicture}
+            formats={['webp']}
+            width={96}
+            height={96}
+            alt={'Profile picture ' + header.title}
+            title={header.title}
+            class="w-24 h-24 rounded-xl object-cover border-2 border-primary mx-auto sm:mx-0"
+        /> -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-paste-icon lucide-clipboard-paste"><path d="M15 2H9a1 1 0 0 0-1 1v2c0 .6.4 1 1 1h6c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1Z"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2M16 4h2a2 2 0 0 1 2 2v2M11 14h10"/><path d="m17 10 4 4-4 4"/></svg>
+
+        <div>
+
+            <h1 class="text-2xl font-extrabold mb-1 inline-block relative text-text-primary">
+                {header.command}
+            </h1>
+
+            <p class="text-sm mb-2 text-primary">
+                {header.subtitle}
+            </p>
+
+            <p class="flex items-center justify-center sm:justify-start text-sm text-gray-400">
+                {header.version}
+            </p>
+
+        </div>
+
+    </div>
+</div>

@@ -1,8 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-import Profile from '../components/Profile.astro';
+// import Profile from '../components/Profile.astro';
+import Header from '../components/Header.astro';
+import PasteBox from '../components/PasteBox.astro';
 import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
 
 import ContentLink from '../components/ContentLink.astro';
 import ContentCode from '../components/ContentAbout.astro';
@@ -17,9 +20,9 @@ import ContentProjects from '../components/ContentProjects.astro';
         <!-- Start: Left / upper card -->
         <div class="p-8 md:p-6 flex flex-col justify-between w-full md:w-2/5 border-b md:border-b-0 md:border-r border-gray-600">
 
-            <Profile />
+            <Header />
+            <PasteBox />
 
-            <Contact />
 
         </div>
         <!-- End: Left / upper card -->
@@ -93,10 +96,7 @@ import ContentProjects from '../components/ContentProjects.astro';
     </main>
     <!-- End: Main Wrapper -->
 
-    <!-- Credits -->
-    <div class="fixed md:absolute bottom-0 left-0 right-0 w-full text-center bg-black py-2">
-        Built with <a href="https://astro.build" title="Astro" target="_blank" class="text-primary hover:underline">Astro</a> by <a href="https://devidev.io/" target="_blank" title="devi|dev|io" class="text-primary hover:underline">devi|dev|io</a>
-    </div>
+    <Footer />
 
 </Layout>
 
