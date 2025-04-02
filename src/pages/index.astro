@@ -4,12 +4,13 @@ import Layout from '../layouts/Layout.astro';
 // import Profile from '../components/Profile.astro';
 import Header from '../components/Header.astro';
 import PasteBox from '../components/PasteBox.astro';
-import Contact from '../components/Contact.astro';
+// import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 
 import ContentLink from '../components/ContentLink.astro';
 import ContentCode from '../components/ContentAbout.astro';
 import ContentProjects from '../components/ContentProjects.astro';
+import Settings from '../components/Settings.astro';
 ---
 
 <Layout>
@@ -56,12 +57,12 @@ import ContentProjects from '../components/ContentProjects.astro';
 
                         <ContentLink
                             contentId="tab1"
-                            contentName="about.ts"
+                            contentName="WorkSpace"
                         />
 
                         <ContentLink
                             contentId="tab2"
-                            contentName="projects.md"
+                            contentName="settings.json"
                         />
 
                     </div>
@@ -70,17 +71,17 @@ import ContentProjects from '../components/ContentProjects.astro';
                     <!-- Start: Tab content -->
                     <div class="p-6 flex-grow overflow-y-auto bg-black">
 
-                        <!-- Start: About content -->
+                        <!-- Start: WorkSpace -->
                         <div id="content1" class="tab-content">
-                            <ContentCode />
-                        </div>
-                        <!-- End: About content -->
-
-                        <!-- Start: Projects content -->
-                        <div id="content2" class="tab-content">
                             <ContentProjects />
                         </div>
-                        <!-- End: Projects content -->
+                        <!-- End: WorkSpace -->
+
+                        <!-- Start: Setting -->
+                        <div id="content2" class="tab-content">
+                            <Settings />
+                        </div>
+                        <!-- End: Setting -->
 
                     </div>
                     <!-- End: Tab content -->
