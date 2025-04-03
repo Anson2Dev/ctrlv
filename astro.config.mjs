@@ -10,6 +10,11 @@ export default defineConfig({
   output: "server",
   adapter: cloudflare(),
 
+  vite: {
+    ssr: {
+      external: ['fs', 'path', 'url']
+    }
+  },
   // Single page, no prefetch needed
   // prefetch: false,
 
