@@ -1,0 +1,139 @@
+---
+import fs from 'fs';
+import path from 'path';
+
+interface FileInfo {
+  name: string;
+  path: string;
+  type: string;
+  size: number;
+  description: string;
+}
+
+// Get files from the download directory
+const downloadDir = path.resolve('./src/download');
+const publicDownloadDir = path.resolve('./public/download');
+let files: FileInfo[] = [];
+
+try {
+  const fileNames = fs.readdirSync(downloadDir);
+  
+  // Ensure public/download directory exists
+  if (!fs.existsSync(publicDownloadDir)) {
+    fs.mkdirSync(publicDownloadDir, { recursive: true });
+  }
+  
+  files = fileNames
+    .filter(fileName => fileName !== '.gitkeep') // Filter out .gitkeep file
+    .map(fileName => {
+      const filePath = path.join(downloadDir, fileName);
+      const stats = fs.statSync(filePath);
+      
+      // Copy files to public/download directory for URL access
+      const publicFilePath = path.join(publicDownloadDir, fileName);
+      try {
+        // Check if it's a text file and if the content is in data URL format
+        if (['.txt', '.md', '.csv'].includes(path.extname(fileName).toLowerCase())) {
+          const content = fs.readFileSync(filePath, 'utf-8');
+          if (content.startsWith('data:')) {
+            // Extract and decode base64 data
+            const base64Data = content.split(',')[1];
+            const decodedText = Buffer.from(base64Data, 'base64').toString('utf-8');
+            fs.writeFileSync(publicFilePath, decodedText);
+          } else {
+            fs.copyFileSync(filePath, publicFilePath);
+          }
+        } else {
+          fs.copyFileSync(filePath, publicFilePath);
+        }
+      } catch (error) {
+        console.error(`Error copying file ${fileName}:`, error);
+      }
+      
+      // Determine file type
+      let fileType = 'unknown';
+      const ext = path.extname(fileName).toLowerCase();
+      if (['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp'].includes(ext)) {
+        fileType = 'image';
+      } else if (['.txt', '.md', '.csv'].includes(ext)) {
+        fileType = 'text';
+      } else if (['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx'].includes(ext)) {
+        fileType = 'document';
+      }
+      
+      // Format file size
+      const fileSizeInBytes = stats.size;
+      let fileSize = fileSizeInBytes;
+      let fileSizeUnit = 'B';
+      
+      if (fileSizeInBytes > 1024 * 1024) {
+        fileSize = Math.round(fileSizeInBytes / (1024 * 1024) * 10) / 10;
+        fileSizeUnit = 'MB';
+      } else if (fileSizeInBytes > 1024) {
+        fileSize = Math.round(fileSizeInBytes / 1024 * 10) / 10;
+        fileSizeUnit = 'KB';
+      }
+      
+      return {
+        name: fileName,
+        path: `/download/${fileName}`,
+        type: fileType,
+        size: fileSize,
+        description: `${fileType.charAt(0).toUpperCase() + fileType.slice(1)} file (${fileSize} ${fileSizeUnit})`
+      };
+    });
+} catch (error) {
+  console.error('Error reading download directory:', error);
+}
+---
+
+<div>
+  <h2 class="text-2xl font-bold text-white mb-4">Download Files</h2>
+
+  {files.length === 0 ? (
+    <p class="text-gray-400">No files available for download</p>
+  ) : (
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {
+        files.map((file) => (
+          <div class="flex flex-col justify-center items-start border border-gray-700 rounded-lg p-4 bg-black">
+            <div class="flex items-center w-full">
+              <div class="mr-3">
+                {file.type === 'image' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                )}
+                {file.type === 'text' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                )}
+                {file.type === 'document' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                )}
+                {file.type === 'unknown' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                )}
+              </div>
+              <h3 class="text-xl font-semibold text-white mb-0 truncate flex-1">{file.name}</h3>
+            </div>
+
+            <p class="text-gray-400 mt-2">{file.description}</p>
+
+            <a
+              href={file.path}
+              download={file.name}
+              class="
+                w-full px-4 py-2.5 mt-4 text-center
+                border border-gray-600 rounded-lg
+                hover:text-primary
+                hover:border-primary
+                flex items-center justify-center
+              "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  )}
+</div>

@@ -3,12 +3,15 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import compress from "astro-compress";
 import sitemap from "@astrojs/sitemap";
+import cloudflare from "@astrojs/cloudflare";
 
 export default defineConfig({
   site: "https://ctrlv.me",
+  output: "server",
+  adapter: cloudflare(),
 
   // Single page, no prefetch needed
-  prefetch: false,
+  // prefetch: false,
 
   integrations: [
     tailwind(),

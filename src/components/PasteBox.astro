@@ -1,6 +1,8 @@
 <div>
   <!-- Start: PasteBox -->
+  <script src="../assets/js/pasteHandler.js"></script>
   <div class="mt-6 mx-auto sm:mx-0 text-xs">
+    <p class="text-gray-400 mb-1">Support pasting text and images (Ctrl+V), content will be saved to server</p>
     <div
       id="pasteBox"
       class="mt-2 rounded-lg bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 p-[1px] min-h-[8rem] max-h-[50vh] overflow-y-auto"
@@ -21,6 +23,29 @@
   <div class="mt-4 flex items-center justify-end gap-4">
     <div id="content-sizes" class="text-xs text-gray-400">0 KB</div>
     <div id="content-type" class="text-xs text-gray-400">Text</div>
+    <button
+      id="clearButton"
+      class="border border-red-500 hover:bg-red-500/10 text-red-500 px-3 py-1 rounded-lg transition-colors flex items-center justify-center"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-trash-2"
+      >
+        <path d="M3 6h18"></path>
+        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+        <line x1="10" y1="11" x2="10" y2="17"></line>
+        <line x1="14" y1="11" x2="14" y2="17"></line>
+      </svg>
+    </button>
     <button
       id="sendButton"
       class="border border-primary hover:bg-primary/10 text-primary px-3 py-1 rounded-lg transition-colors flex items-center justify-center"
@@ -53,15 +78,15 @@
   >
     <div class="flex items-center mb-2">
       <span class="text-primary mr-2">$</span>
-      <span class="text-gray-100">npx connect</span>
+      <span class="text-gray-100">save content</span>
     </div>
 
     <div class="mt-2 text-gray-400">
       Initializing...
       <br />
-      Ready to connect.
+      Ready to save.
       <br />
-      Waiting for contact request...
+      Processing content...
     </div>
   </div>
   <!-- End: Terminal -->
